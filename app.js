@@ -2,10 +2,11 @@ const express = require('express');
 const displayRoutes = require('./routes/display'); 
 const bodyParser = require('body-parser');
 
-const app = express();
+const mongoose = require('mongoose');
 
-app.set('view engine', 'ejs');
-app.set('views','views');
+const MONGODB_URI = `mongodb+srv://*******:*******@cluster0.l0sqv.mongodb.net/test`
+
+const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -23,6 +24,10 @@ app.get('/', (req,res)=> {
     res.send('Hello Flow!!')
 })
 
-app.listen(3000, ()=>{
-    console.log("This is happenning!!")
-})
+
+mongoose.connect(MONGODB_URI)
+    .then((result) => {
+        app.listen( 3000);
+    }).catch(err=>{
+        console.log(err)
+    })
